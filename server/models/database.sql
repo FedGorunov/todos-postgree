@@ -1,3 +1,4 @@
+// initial creation database
 DROP DATABASE IF EXISTS todosdb;
 CREATE DATABASE todosdb;
 
