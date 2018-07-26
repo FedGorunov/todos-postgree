@@ -4,6 +4,7 @@ const db = require('../models/queries.js');
 
 
 router.get('/api/todos', db.getAllTodos);
+router.get('/api/todos/:id', db.getOneTodo);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
