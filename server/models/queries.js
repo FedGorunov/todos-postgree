@@ -46,7 +46,41 @@ function getOneTodo(req, res, next) {
     });
 }
 
+function createTodo(req, res, next) {
+  db.none(
+    "insert into todos(name, status)" + " values(${name}, ${status}) ",
+    req.body
+  )
+    .then(function() {
+      res.status(200).json({
+        status: "good!",
+        message: "Created new todo!"
+      });
+    })
+    .catch(function(err) {
+      return next(err);
+    });
+}
+
+function deleteTodo(req, res, next){
+  const todoId = req.params.id;
+  db.none("delete  from todos where id = $1", todoId)
+  .then(function(){
+    res.status(200).json({
+      status: "good!",
+      message: "delete sucsess" 
+    });
+  }
+
+  ).catch(function(err){
+    return next(err);
+  });
+
+}
+
 module.exports = {
   getAllTodos: getAllTodos,
-  getOneTodo: getOneTodo
+  getOneTodo: getOneTodo,
+  createTodo: createTodo,
+  deleteTodo: deleteTodo
 };
