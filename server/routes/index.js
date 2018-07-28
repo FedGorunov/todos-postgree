@@ -7,6 +7,7 @@ router.get('/api/todos', db.getAllTodos);
 router.get('/api/todos/:id', db.getOneTodo);
 router.post('/api/todos', db.createTodo);
 router.delete('/api/todos/:id', db.deleteTodo);
+router.put('/api/todos/:id', db.changeTodo);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

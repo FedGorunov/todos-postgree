@@ -62,25 +62,43 @@ function createTodo(req, res, next) {
     });
 }
 
-function deleteTodo(req, res, next){
+function deleteTodo(req, res, next) {
   const todoId = req.params.id;
-  db.none("delete  from todos where id = $1", todoId)
-  .then(function(){
-    res.status(200).json({
-      status: "good!",
-      message: "delete sucsess" 
+  db.result("delete  from todos where id = $1", todoId)
+    .then(function(result) {
+      res.status(200)
+      .json({
+        status: 'good!',
+        message: `Deleted ${result.rowCount}  todo successfully`
+      });
+    })
+    .catch(function(err) {
+      return next(err);
     });
-  }
+}
 
-  ).catch(function(err){
-    return next(err);
-  });
-
+function changeTodo(req, res, next) {
+  db.none(
+    "update  todos set name=$1,  status=$2 where id=$3",
+    [req.body.name,
+    req.body.status,
+    req.params.id]
+  )
+    .then(function(data) {
+      res.status(200).json({
+        status: "good!",
+        message: "Update successfully"
+      });
+    })
+    .catch(function(err) {
+      return next(err);
+    });
 }
 
 module.exports = {
   getAllTodos: getAllTodos,
   getOneTodo: getOneTodo,
   createTodo: createTodo,
-  deleteTodo: deleteTodo
+  deleteTodo: deleteTodo,
+  changeTodo: changeTodo
 };
